@@ -1,0 +1,17 @@
+-- TASK 3
+-- Question 1
+SELECT * FROM country 
+WHERE country LIKE 'A%' AND country LIKE'%a';
+
+-- Question 2
+SELECT * FROM country 
+WHERE country LIKE'_____%a';
+
+-- Question 3
+SELECT * FROM film
+WHERE title ILIKE '%T%T%T%T%';
+
+-- Question 4
+SELECT * FROM film
+WHERE (title LIKE 'C%') AND (length >90) AND (rental_rate=2.99);
+
