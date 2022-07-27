@@ -8,7 +8,6 @@ WHERE category_name LIKE 'Con%'
 SELECT * FROM categories
 WHERE category_name LIKE '%e%'
 
-
 -- Ilk harf blank ikincisi r ve gerisi onemsiz (ve diger)
 
 SELECT * FROM categories
@@ -71,4 +70,31 @@ SELECT product_name AS "Urun Adi" FROM products
 SELECT product_name AS "Urun Adi", product_id AS "Urun ID" FROM products
 
 -- En pahali urun (ayni zamanda etiketleri kullandik
+
+SELECT product_name AS "Urun Adi", unit_price AS "fiyat" FROM products
+ORDER BY unit_price DESC LIMIT 1 ;
+
+-- Icerisinde ca gecen hali. Gercek hayat ornek: Isminde internet gecen urunleri, en ucuzdan en pahaliya goruntuleyebilirsiniz ornegin
+
+SELECT product_name AS "Urun Adi", unit_price AS "Fiyat" FROM products
+WHERE product_name LIKE '%ca%'
+ORDER BY unit_price DESC LIMIT 1 ;
+
+-- Fiyati 50 ile 100 arasinda olan urunleri goruntuleme 
+
+SELECT product_name AS "Urun Adi", unit_price AS "Fiyat" FROM products
+WHERE unit_price BETWEEN 50 AND 100
+
+-- Ilk 10 siradakini goruntulemek isterseniz 
+
+SELECT product_name AS "Urun Adi", unit_price AS "Fiyat" FROM products
+WHERE unit_price BETWEEN 50 AND 100
+ORDER BY unit_price DESC LIMIT 10
+
+-- IN OPERATORU Kullanimi
+
+SELECT * FROM products
+WHERE product_name IN('Chai','Chang')
+
+
 
