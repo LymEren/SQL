@@ -1,0 +1,83 @@
+-- SQL DATE Query Workshop - Pair 8
+
+-- 1-) 1998 yılı mart ayındaki siparişlerimin adresi, siparişi alan çalışanın adı, çalışanın soyadını listeleyiniz.
+
+SELECT ship_address, employees.first_name, employees.last_name , order_date 
+FROM orders
+INNER JOIN employees ON orders.employee_id = employees.employee_id
+WHERE order_date BETWEEN '1998-03-01' AND '1998-03-31';
+
+
+-- 2-) 1997 yılı şubat ayında kaç siparişim var?
+
+SELECT COUNT(order_id) AS "Subat Ayi Siparis"
+FROM orders
+WHERE order_date BETWEEN '1997-02-01' AND '1997-02-28';
+
+
+-- 3-) London şehrinden 1998 yılında kaç siparişim var?
+
+SELECT COUNT(order_id) FROM orders
+WHERE DATE_PART('year', order_date) = '1998' AND ship_city = 'London';
+
+
+-- 4-) 1997 yılında verilen siparişlerin tarihi, şehri, çalışan adı - soyadı 
+
+SELECT order_date, ship_city, first_name, last_name FROM orders
+INNER JOIN employees ON orders.employee_id = employees.employee_id
+WHERE DATE_PART('year', order_date) = '1997';
+
+
+-- 5-) Sipariş tarihi, müşteri contact name, çalışan ad, çalışan soyad (3 tablo birleştirilecek)
+
+SELECT order_date, contact_name, first_name, last_name FROM orders
+INNER JOIN employees ON orders.employee_id = employees.employee_id
+INNER JOIN customers ON orders.customer_id = customers.customer_id;
+
+
+-- 6-) Geciken siparişlerim nelerdir?
+
+SELECT order_id, required_date AS "Gelmesi Beklenen Tarih", shipped_date AS "Kargolanma Tarihi"
+FROM orders 
+WHERE required_date < shipped_date;
+
+
+-- 7-) Geciken siparişlerimin tarihi, müşterisinin adı
+
+SELECT order_id, shipped_date AS "Kargolanma Tarihi", company_name AS "Musterinin adi"
+FROM orders 
+INNER JOIN customers ON orders.customer_id = customers.customer_id
+WHERE required_date < shipped_date;
+
+
+-- 8-) 1997 yılında en çok satış yapan çalışanımın ID,Ad soyad alanları
+
+SELECT COUNT(employees.employee_id) AS "Satis Sayisi", first_name, last_name FROM orders
+INNER JOIN employees ON orders.employee_id = employees.employee_id
+WHERE DATE_PART('year', order_date) = '1997'
+GROUP BY employees.employee_id
+ORDER BY COUNT(employees.employee_id) DESC
+LIMIT 1;
+
+
+
+-- 9-) SON 5 siparişimin ortalama fiyatı ve orderid nedir? (sepet toplamı ortalaması)
+
+SELECT AVG (unit_price) AS "Ortalama Sepet Tutari", orders.order_id FROM orders
+INNER JOIN order_details ON orders.order_id = order_details.order_id
+GROUP BY orders.order_id
+ORDER BY orders.order_id DESC
+LIMIT 5;
+
+
+
+
+
+
+
+
+
+
+
+
+
