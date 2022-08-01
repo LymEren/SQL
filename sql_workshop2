@@ -1,0 +1,86 @@
+-- WORKSHOP - DELETE - Pair 8
+
+-- 1- Ship Via = 3 olan siparisleri silme (2 ic ice delete)
+
+DELETE FROM order_details
+WHERE order_id
+IN (
+    SELECT order_id FROM orders
+    WHERE ship_via = 3
+)
+
+
+
+-- 2- Contact Title = Owner olan musterileri silme (3 ic ice delete)
+
+DELETE FROM order_details
+WHERE order_id 
+IN (
+    SELECT order_id FROM orders
+    WHERE customer_id
+    IN (
+        SELECT customer_id FROM customers
+        WHERE contact_title = 'Owner'
+    )
+)
+
+
+
+
+
+-- 3- Territory_id = 02903 olan calisani silme (2 ic ice Delete)
+
+DELETE FROM employee_territories
+WHERE territory_id
+IN (
+    SELECT territory_id FROM territories
+    WHERE territory_id = '02903'
+
+
+
+
+
+-- 4- INSERT-UPDATE-DELETE ÖRNEĞİ
+SELECT * FROM shippers
+
+INSERT INTO shippers
+VALUES ('8','BERKTicaret', '(505) 567-9241')
+UPDATE shippers
+SET company_name= 'BT' WHERE company_name= 'BERKTicaret'
+DELETE FROM shippers where shipper_id = 8
+
+
+
+-- 5- LEFT JOIN ORNEĞİ 
+SELECT company_name,order_date, ship_region FROM orders
+LEFT JOIN customers 
+ON orders.customer_id = customers.customer_id
+GROUP BY order_date,company_name,ship_region
+ORDER BY order_date DESC
+
+
+-- 6- FULL JOIN - Update Last Name
+
+SELECT first_name, last_name, territory_id  FROM employees
+FULL OUTER JOIN employee_territories
+ON employees.employee_id = employee_territories.employee_id 
+
+UPDATE employees
+SET last_name = UPPER(last_name)
+
+
+-- 7- INNER JOIN VE GROUP BY / ORDER BY KULLANIMI
+SELECT o.order_id, o.customer_id, o.employee_id, 
+o.ship_name, o.ship_address, o.ship_city, sh.company_name FROM Orders o
+INNER JOIN shippers sh
+ON o.ship_via = sh.shipper_id
+GROUP BY o.order_id, o.employee_id, sh.company_name
+ORDER BY o.employee_id DESC
+
+
+-- 8- RIGHT JOIN ORNEGI
+SELECT sh.shipper_id, sh.company_name, o.order_id, o.customer_id FROM shippers sh
+RIGHT JOIN orders o
+ON sh.shipper_id = o.ship_via
+GROUP BY sh.shipper_id, o.order_id
+ORDER BY sh.shipper_id
