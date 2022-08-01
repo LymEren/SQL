@@ -1,0 +1,66 @@
+-- Stogu tukenmis urunlerin indirimini kaldirma
+
+-- SORGU KISMI
+SELECT discount, units_in_stock, products.product_name 
+FROM order_details
+INNER JOIN products 
+ON order_details.product_id = products.product_id
+WHERE units_in_stock = 0 AND discount > 0
+
+
+-- UPDATE KISMI
+
+UPDATE order_details
+SET discount = 0
+WHERE product_id IN (
+    SELECT product_id FROM products
+    WHERE units_in_stock = 0
+)
+-------
+Müşterilerin bulunduğu ülkelerden USA ve FRANCE seçerek ülkede müşterilere yapılmış satışları, 
+order_idleri ile getirelim.
+
+SELECT c.customer_id, o.customer_id,o.order_id, 
+c.country, od.order_id, (unit_price * quantity) as "Fiyat" FROM customers c
+INNER JOIN orders o
+ON c.customer_id = o.customer_id
+INNER JOIN order_details od
+ON o.order_id = od.order_id
+WHERE c.country= 'USA' or c.country= 'France'
+ORDER BY c.country
+-------
+Belli kategorideki bir ürünü en ucuz satan 3 firmayı göstersin.
+
+SELECT unit_price, description, suppliers.company_name FROM categories
+LEFT JOIN products
+ON products.category_id = categories.category_id
+FULL JOIN suppliers
+ON suppliers.supplier_id = products.supplier_id
+WHERE categories.category_id = 8 
+ORDER BY unit_price
+LIMIT 3;
+-------
+
+Zamanında teslim edilmiş bir ürünün detaylarının silinmesi
+-- SORGU 
+
+SELECT COUNT(orders.shipped_date) FROM order_details
+INNER JOIN orders
+ON orders.order_id = order_details.order_id
+WHERE shipped_date <=  required_date
+
+-- DELETE 
+DELETE FROM order_details
+WHERE order_id
+IN (
+    SELECT order_id FROM orders
+    WHERE shipped_date <=  required_date
+)
+
+---------
+--14 günden fazla geciken siparişlerin listesi
+
+SELECT order_id, shipped_date, company_name, (shipped_date - required_date) AS "Gecikme Gunu"
+FROM orders 
+INNER JOIN customers ON orders.customer_id = customers.customer_id
+WHERE (shipped_date - required_date) > 14
