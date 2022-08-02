@@ -74,6 +74,16 @@ SELECT * FROM get_customer_by_city('Berlin')
 -- Return edilen sonuc tek table icermez o nedenle yeni bir type olustururuz
 -- 3 sutun ekleyip yeni bir type olusturmaliyiz
 
+
+-- Definition
+
+-- customer_id / character / 20
+-- order_id / smallint / -
+-- country / character varying/ 15
+-- Fiyat / double precision / -
+
+
+
 -- Ornegin bu tablo 
 
 SELECT c.customer_id, o.order_id, 
