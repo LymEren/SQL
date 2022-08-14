@@ -158,4 +158,5 @@ WHERE order_id= '11077' and product_id = '47' and unit_price = '35.3' and quanti
 SELECT od.product_id, od.order_id, o.order_date FROM orders o
 FULL JOIN order_details od
 ON o.order_id = od.order_id
+LIMIT 3
                         
