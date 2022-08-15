@@ -64,3 +64,4 @@ SELECT order_id, shipped_date, company_name, (shipped_date - required_date) AS "
 FROM orders 
 INNER JOIN customers ON orders.customer_id = customers.customer_id
 WHERE (shipped_date - required_date) > 14
+ORDER BY order_id
