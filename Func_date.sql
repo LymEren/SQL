@@ -13,7 +13,7 @@ ORDER BY orders.employee_id
 
 CREATE TYPE public.date_table_1 AS
 (
-	order_id smallint,
+    order_id smallint,
     employee_id smallint,
     unit_price real
 );
