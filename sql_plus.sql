@@ -19,3 +19,35 @@ SELECT * FROM dba_tables
 -- Sana ait olmayan (giris yaptigin hesaba) bir sorguda asagidaki gibidir
 SELECT * FROM hr.EMPLOYEES
 
+-- Oracle from olmadan sorgu yaptirmiyor. 
+SELECT * FROM dual -- Bu dummy kolon
+
+-- Dummy kullanarak bu tarz islemele yapilabilir
+SELECT SYSDATE, 22*5, 'Eyup' FROM DUAL  
+
+
+
+-- Manager ID si 103 ile 120 arasinda olan calisanlar
+SELECT first_name ADI, last_name SOYADI, salary MAAŞ, manager_id FROM employees  WHERE manager_id BETWEEN 103 AND 120
+
+-- Manager ID si 103 veya 120 olan calisanlar
+SELECT first_name ADI, last_name SOYADI, salary MAAŞ, manager_id FROM employees  WHERE manager_id IN (103, 120)
+
+
+
+--Employees tablosunda manager_id kolonu bos olmayan calisan​
+
+SELECT first_name, last_name, manager_id FROM employees  WHERE manager_id IS NOT NULL 
+
+
+
+
+--Employees tablosunda job_id kolonu IT_PROG, FI_ACCOUNT ve SH_CLERK olmayan calisanlar​
+
+
+SELECT * FROM EMPLOYEES WHERE job_id NOT IN ('IT_PROG', 'FI_ACCOUNT', 'SH_CLERK')
+
+
+-- PIPE kullanimi: Isim soyisim kolonlarini birlestirdik, maas kolonuna 'MAAS' yazdirdik
+
+SELECT first_name ||' '|| last_name "AD SOYAD", 'Maas: '||salary "MAAS" FROM EMPLOYEES 
