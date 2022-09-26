@@ -1,4 +1,4 @@
--- SQL Advance Level 
+-- SQL Advance Level (ORACLE)
 
 SELECT * FROM user_tables
 
@@ -51,3 +51,20 @@ SELECT * FROM EMPLOYEES WHERE job_id NOT IN ('IT_PROG', 'FI_ACCOUNT', 'SH_CLERK'
 -- PIPE kullanimi: Isim soyisim kolonlarini birlestirdik, maas kolonuna 'MAAS' yazdirdik
 
 SELECT first_name ||' '|| last_name "AD SOYAD", 'Maas: '||salary "MAAS" FROM EMPLOYEES 
+
+
+-- Case kullanimi 
+
+SELECT OrderID, Quantity,
+CASE WHEN Quantity > 30 THEN 'The quantity is greater than 30'
+WHEN Quantity = 30 THEN 'The quantity is 30'
+ELSE 'The quantity is under 30'
+END AS QuantityText
+FROM OrderDetails;
+
+
+SELECT * FROM (SELECT first_name, last_name, AS "soyadi" FROM employees)
+WHERE adi = 'MEHMET'               
+
+
+
