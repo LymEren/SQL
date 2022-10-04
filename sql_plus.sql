@@ -124,3 +124,29 @@ SAVEPOINT maaslar_guncellendi
 
 
 ROLLBACK TO yoneticiler_eklendi;
+
+
+-- Table Creates
+
+CREATE TABLE fatura (
+    musteri_id number,
+   adi varchar(50),
+   soyadi varchar2(50),
+   fatura_tarihi date )
+PARTITION BY RANGE(fatura_tarihi)(
+PARTITION Fatura201301 VALUES LESS THAN(TO_DATE('01/01/2022','DD/MM/YYYY')),
+PARTITION Fatura201302 VALUES LESS THAN(TO_DATE('01/02/2022','DD/MM/YYYY')),
+PARTITION Fatura201303 VALUES LESS THAN(TO_DATE('01/03/2022','DD/MM/YYYY')),
+PARTITION Fatura201306 VALUES LESS THAN(TO_DATE('01/04/2022','DD/MM/YYYY')));
+
+
+CREATE TABLE satis (sehir_id number,
+ 	sehir_adi varchar(50),
+ 	urun_id number,
+ 	urun_fiyati number  )
+PARTITION BY LIST(sehir_adi)(
+ PARTITION SatisAnkIstIzm VALUES('Ankara','Istanbul','Izmir'),
+ PARTITION SatisBurKonAdna VALUES ('Bursa','Konya','Adana'),
+ PARTITION SatisUrfDyrGzant VALUES('Şanlıurfa','Diyarbakır','GaziAntep'),
+ PARTITION SatisSamErzSiv VALUES('Samsun','Erzurum','Sivas'),
+ PARTITION SatisDigerSehirler VALUES(DEFAULT) );
